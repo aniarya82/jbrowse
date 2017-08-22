@@ -1,8 +1,7 @@
 define([
         'underscore',
         'jquery',
-        // 'JBrowse/Browser',
-        '../js/Browser',
+        'JBrowse/Browser',
         'JBrowse/Model/SimpleFeature',
         '../tests/data/RefSeq_1',
         '../tests/data/RefSeq_2',
@@ -89,9 +88,14 @@ describe( "Edit Track", function() {
         return false;
     };
 
+    var getEditTrack = function () {
+        console.log("getEditTrack invoked");
+        console.dir(jbrowse.config.tracks);
+    }
+
     beforeEach(function(done) {
         setTimeout(function () {
-            editTrack = jbrowse.getEditTrack();
+            editTrack = getEditTrack();
             done();
         }, 1000);
     });

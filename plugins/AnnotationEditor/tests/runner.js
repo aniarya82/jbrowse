@@ -21,19 +21,11 @@ require({
     },
     {
         name:     'dgrid',
-        location: '../jslib/dgrid'
+        location: '../../../src/dgrid'
     },
     {
         name:      'dstore',
         location: '../../../src/dstore'
-    },
-    {
-        name:     'xstyle',
-        location: '../jslib/xstyle'
-    },
-    {
-        name:     'put-selector',
-        location: '../jslib/put-selector'
     },
     {
         name:     'FileSaver',
