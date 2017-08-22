@@ -1,76 +1,81 @@
-require({
-    packages: [{
-        name: 'jasmine',
-        location: '../jslib/jasmine/lib/jasmine-core'
+require.config({
+    baseUrl: '../../../',
+    packages:[{
+        name:     'jasmine',
+        location:  "plugins/AnnotationEditor/jslib/jasmine/lib/jasmine-core"
     },
-        {
+    {
         name:     'dojo',
-        location: '../../../src/dojo'
+        location: 'src/dojo'
     },
     {
         name:     'dijit',
-        location: '../../../src/dijit'
+        location: 'src/dijit'
     },
     {
         name:     'dojox',
-        location: '../../../src/dojox'
+        location: 'src/dojox'
     },
     {
         name:     'jszlib',
-        location: '../../../src/jszlib'
+        location: 'src/jszlib'
     },
     {
         name:     'dgrid',
-        location: '../../../src/dgrid'
+        location: 'src/dgrid'
     },
     {
-        name:      'dstore',
-        location: '../../../src/dstore'
+        name:     'dstore',
+        location: 'src/dstore'
     },
     {
         name:     'FileSaver',
-        location: '../../../src/FileSaver'
+        location: 'src/FileSaver'
     },
     {
-        name:     'jDataView',
-        location: '../../../src/jDataView/src',
-        main:     'jdataview'
+        name:     'underscore',
+        location: 'plugins/AnnotationEditor/jslib/underscore',
+        main:     'underscore'
     },
     {
-        name:      'lazyload',
-        location:  '../../../src/lazyload',
-        main:      'lazyload'
-    },
-    {
-        location: '../jslib/underscore',
-        name: 'underscore', main: 'underscore'
-    },
-    {
-        location: '../jslib/jquery',
-        name: 'jquery', main: 'jquery'
-    },
-    {
-        location: '../jslib/jqueryui',
-        name: 'jqueryui',
-    },
-    {
-        location: '../jslib/genevalidator',
-        name: 'genevalidator', main: 'gvapi'
-    },
-    {
-        location: '../../../src/JBrowse',
-        name: 'JBrowse'
-    },
-    {
-        location: '../js/',
-        name: 'AnnotationEditor'
+        name:     'jquery',
+        location: 'plugins/AnnotationEditor/jslib/jquery',
+        main:     'jquery'
     },
     {
         name:     'jqueryui',
-        location: '../jslib/jquery.ui/ui'
-    }],},
-    [],
-    function() {
+        location: 'plugins/AnnotationEditor/jslib/jqueryui'
+    },
+    {
+        name:     'genevalidator',
+        location: 'plugins/AnnotationEditor/jslib/genevalidator',
+        main:     'gvapi'
+    },
+    {
+        name:     'JBrowse',
+        location: 'src/JBrowse'
+    },
+    {
+        name:     'AnnotationEditor',
+        location: 'plugins/AnnotationEditor/js/'
+    },
+    {
+        name:     'lazyload',
+        location: 'src/lazyload',
+        main:     'lazyload'
+    },
+    {
+        name:     'jDataView',
+        location: 'src/jDataView/src',
+        main:     'jdataview'
+    }],
+    map: {
+        '*': {
+            'less': 'lib/require-less/less',
+            'html': 'lib/requirejs-text/text'
+        }
+    }
+});
 
 require(['jasmine/jasmine']
 , function () {
@@ -212,5 +217,4 @@ require(['jasmine/jasmine']
             env.execute();
         });
     });
-});
 });

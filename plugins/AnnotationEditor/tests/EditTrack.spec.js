@@ -3,10 +3,10 @@ define([
         'jquery',
         'JBrowse/Browser',
         'JBrowse/Model/SimpleFeature',
-        '../tests/data/RefSeq_1',
-        '../tests/data/RefSeq_2',
-        '../tests/data/transcripts/transcript_data',
-        '../tests/data/tracks',
+        'plugins/AnnotationEditor/tests/data/RefSeq_1',
+        'plugins/AnnotationEditor/tests/data/RefSeq_2',
+        'plugins/AnnotationEditor/tests/data/transcripts/transcript_data',
+        'plugins/AnnotationEditor/tests/data/tracks',
         ], function (
             _,
             $,
@@ -90,7 +90,7 @@ describe( "Edit Track", function() {
 
     var getEditTrack = function () {
         console.log("getEditTrack invoked");
-        console.dir(jbrowse.config.tracks);
+        console.dir(jbrowse);
     }
 
     beforeEach(function(done) {
