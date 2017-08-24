@@ -959,6 +959,7 @@ var EditTrack = declare(DraggableFeatureTrack,
             orfStop  = this.CDNAToTranscript(transcript, orfStop);
 
             var newTranscript = this.setCDS(transcript, orfStart, orfStop);
+            console.log("newTranscript: "+JSON.stringify(newTranscript));
             return newTranscript;
         }
     },

@@ -1,72 +1,76 @@
 require.config({
-    baseUrl: '../../../',
+    baseUrl: '../../../src',
     packages:[{
         name:     'jasmine',
-        location:  "plugins/AnnotationEditor/jslib/jasmine/lib/jasmine-core"
+        location:  "../plugins/AnnotationEditor/jslib/jasmine/jasmine-core"
     },
     {
         name:     'dojo',
-        location: 'src/dojo'
+        location: 'dojo'
     },
     {
         name:     'dijit',
-        location: 'src/dijit'
+        location: 'dijit'
     },
     {
         name:     'dojox',
-        location: 'src/dojox'
+        location: 'dojox'
     },
     {
         name:     'jszlib',
-        location: 'src/jszlib'
+        location: 'jszlib'
     },
     {
         name:     'dgrid',
-        location: 'src/dgrid'
+        location: 'dgrid'
     },
     {
         name:     'dstore',
-        location: 'src/dstore'
+        location: 'dstore'
     },
     {
         name:     'FileSaver',
-        location: 'src/FileSaver'
+        location: 'FileSaver'
     },
     {
         name:     'underscore',
-        location: 'plugins/AnnotationEditor/jslib/underscore',
+        location: '../plugins/AnnotationEditor/jslib/underscore',
         main:     'underscore'
     },
     {
         name:     'jquery',
-        location: 'plugins/AnnotationEditor/jslib/jquery',
+        location: '../plugins/AnnotationEditor/jslib/jquery',
         main:     'jquery'
     },
     {
         name:     'jqueryui',
-        location: 'plugins/AnnotationEditor/jslib/jqueryui'
+        location: '../plugins/AnnotationEditor/jslib/jqueryui'
     },
     {
         name:     'genevalidator',
-        location: 'plugins/AnnotationEditor/jslib/genevalidator',
+        location: '../plugins/AnnotationEditor/jslib/genevalidator',
         main:     'gvapi'
     },
     {
+        name:     'tests_data',
+        location: '../plugins/AnnotationEditor/tests/data'
+    },
+    {
         name:     'JBrowse',
-        location: 'src/JBrowse'
+        location: 'JBrowse'
     },
     {
         name:     'AnnotationEditor',
-        location: 'plugins/AnnotationEditor/js/'
+        location: '../plugins/AnnotationEditor/js'
     },
     {
         name:     'lazyload',
-        location: 'src/lazyload',
+        location: 'lazyload',
         main:     'lazyload'
     },
     {
         name:     'jDataView',
-        location: 'src/jDataView/src',
+        location: 'jDataView/src',
         main:     'jdataview'
     }],
     map: {

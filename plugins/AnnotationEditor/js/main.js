@@ -17,35 +17,31 @@ require({
             name: 'genevalidator', main: 'gvapi'
         }
     ]
-},
-[],
-function() {
+})
 
-    define.amd.jQuery = true;
-
-    define([
-        'dojo/_base/declare',
-        'dojo/_base/array',
-        'jquery/jquery',
-        'underscore/underscore',
-        'AnnotationEditor/FeatureEdgeMatchManager',
-        'AnnotationEditor/FeatureSelectionManager',
-        'AnnotationEditor/TrackConfigTransformer',
-        'JBrowse/Browser',
-        'JBrowse/Plugin'
-    ],
-        function(
-            declare,
-            array,
-            $,
-            _,
-            FeatureEdgeMatchManager,
-            FeatureSelectionManager,
-            TrackConfigTransformer,
-            Browser,
-            JBrowsePlugin
-            // EditTrack
-        ) {
+define([
+    'dojo/_base/declare',
+    'dojo/_base/array',
+    'jquery/jquery',
+    'underscore/underscore',
+    'AnnotationEditor/FeatureEdgeMatchManager',
+    'AnnotationEditor/FeatureSelectionManager',
+    'AnnotationEditor/TrackConfigTransformer',
+    'JBrowse/Browser',
+    'JBrowse/Plugin'
+],
+    function(
+        declare,
+        array,
+        $,
+        _,
+        FeatureEdgeMatchManager,
+        FeatureSelectionManager,
+        TrackConfigTransformer,
+        Browser,
+        JBrowsePlugin
+        // EditTrack
+    ) {
 return declare(JBrowsePlugin,
 {
     constructor: function( args ) {
@@ -139,6 +135,5 @@ return declare(JBrowsePlugin,
             // gb.showTracks(["DNA","gene","Edit"]);
         })
     }
-});
 });
 });

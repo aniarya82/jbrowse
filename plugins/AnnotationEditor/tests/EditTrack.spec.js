@@ -3,15 +3,17 @@ define([
         'jquery',
         'JBrowse/Browser',
         'JBrowse/Model/SimpleFeature',
-        'plugins/AnnotationEditor/tests/data/RefSeq_1',
-        'plugins/AnnotationEditor/tests/data/RefSeq_2',
-        'plugins/AnnotationEditor/tests/data/transcripts/transcript_data',
-        'plugins/AnnotationEditor/tests/data/tracks',
+        'AnnotationEditor/View/Track/EditTrack',
+        'tests_data/RefSeq_1',
+        'tests_data/RefSeq_2',
+        'tests_data/transcripts/transcript_data',
+        'tests_data/tracks',
         ], function (
             _,
             $,
             Browser,
             SimpleFeature,
+            EditTrack,
             refSeq,
             refSeq_2,
             transcript_data,
@@ -21,13 +23,13 @@ define([
 describe( "Edit Track", function() {
 
     // var baseURL = '/data/jbrowse/Solenopsis_invicta/Si_gnF';
-    var baseURL = '/sample_data/json/volvox/';
     var jbrowse = new Browser({
+        // unitTestMode: true,
         containerID: 'GenomeBrowser',
-        baseUrl: baseURL,
+        baseUrl: '/',
         // include: [baseURL + '/trackList.json', '/data/jbrowse/edit-track.json'],
-        include: [baseURL + '/trackList.json'],
-        refSeqs: baseURL + '/seq/refSeqs.json'
+        include: ['/sample_data/json/volvox/trackList.json'],
+        refSeqs: '/sample_data/json/volvox/seq/refSeqs.json'
     });
 
     var editTrack;
@@ -89,8 +91,15 @@ describe( "Edit Track", function() {
     };
 
     var getEditTrack = function () {
-        console.log("getEditTrack invoked");
-        console.dir(jbrowse);
+        if (jbrowse && jbrowse.view && jbrowse.view.tracks) {
+            var tracks = jbrowse.view.tracks;
+            for (var i = 0; i < tracks.length; i++) {
+                if (tracks[i] instanceof EditTrack) {
+                    return (this._editTrack = tracks[i]);
+                }
+            }
+        }
+        return jbrowse;
     }
 
     beforeEach(function(done) {
