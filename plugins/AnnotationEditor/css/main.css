@@ -99,3 +99,73 @@ div.track_edit {
     -webkit-box-sizing: border-box;
     -ms-box-sizing: border-box;
 }
+
+/*Styles for the reference sequence*/
+div.sequence {
+  z-index: 10;
+  display: table;
+  position: absolute;
+  pointer-events: none;
+}
+
+div.sequence > div {
+  display: table-row;
+}
+
+div.sequence > div > span {
+  display: table-cell;
+}
+
+div.sequence .aa.frame0 {
+    background-color: #999999;
+}
+
+div.sequence .aa.frame1 {
+    background-color: #BBBBBB;
+}
+
+div.sequence .aa.frame2 {
+    background-color: #DDDDDD;
+}
+
+.frame_highlight {
+    background-color: #85BB90 !important;
+}
+
+span.aa, span.nt {
+    color: black;
+    font-family: monospace;
+    font-size: 10px;
+    text-align: center;
+    text-transform: capitalize;
+}
+
+.aa_\* {
+  background: #B35252;
+}
+
+.aa_M {
+  background: #008B5E;
+}
+
+.base_n {
+    background-color: #C6C6C6;
+}
+.base_a {
+    background-color: #00BF00;
+}
+.base_c {
+    background-color: #4747ff;
+}
+.base_t {
+    background-color: #f00;
+}
+.base_g {
+    background-color: #d5bb04;
+}
+.base_reference {
+    background-color: #bbb;
+}
+.base_deletion {
+    background-color: #999;
+}

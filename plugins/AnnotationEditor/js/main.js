@@ -128,15 +128,14 @@ return declare(JBrowsePlugin,
         });
 
         browser.afterMilestone('initView', function() {
-            var trackConfs = browser.trackConfigsByName["Edit"];
+            var trackConfs = browser.trackConfigsByName["DNA"];
+            trackConfs.type = "AnnotationEditor/View/Track/Sequence";
+            browser.trackConfigsByName[ trackConfs.label ] = trackConfs;
             var stores_scratchpad = {
                     type: "AnnotationEditor/Store/SeqFeature/ScratchPad",
                     features : []
             };
             browser.addStoreConfig('scratchpad', stores_scratchpad);
-
-            // browser.publish( '/jbrowse/v1/c/tracks/show', trackConfs );
-            // gb.showTracks(["DNA","gene","Edit"]);
         })
     }
 });
