@@ -10,7 +10,8 @@ define([
             'AnnotationEditor/Model/SimpleFeature',
             'JBrowse/Util',
             'JBrowse/View/GranularRectLayout',
-            'JBrowse/CodonTable',
+            'AnnotationEditor/CodonTable',
+            'AnnotationEditor/View/Track/Sequence',
             'FileSaver/FileSaver',
             'AnnotationEditor/Store/Stack',
             'genevalidator/gvapi'
@@ -27,6 +28,7 @@ define([
                  Util,
                  Layout,
                  CodonTable,
+                 SequenceTrack,
                  saveAs,
                  Stack,
                  GV) {
@@ -1880,7 +1882,6 @@ var EditTrack = declare(DraggableFeatureTrack,
         if (transcripts.length < 1) return;
         this.store.insert(transcripts[0]);
         this.changed();
-        return;
 
         // this.store.backupStore();
         try {
@@ -2183,6 +2184,20 @@ var EditTrack = declare(DraggableFeatureTrack,
                            });
     },
 
+    getSequenceTrack: function() {
+        var thisB = this.browser;
+        // if (this._sequenceTrack) return this._sequenceTrack;
+        if (thisB && thisB.view && thisB.view.tracks)  {
+            var tracks = thisB.view.tracks;
+            for (var i = 0; i < tracks.length; i++)  {
+                if (tracks[i] instanceof SequenceTrack)  {
+                    return (thisB._sequenceTrack = tracks[i]);
+                }
+            }
+        }
+        return null;
+    },
+
     selectionAdded: function (selection) {
         this.inherited(arguments);
 
@@ -2196,64 +2211,64 @@ var EditTrack = declare(DraggableFeatureTrack,
         //   I would think that this hack prevents users from selecting multiple
         //   features at bp level. Funnnily, that doesn't seem to be the case
         //   (verified against sevaral examples). And I don't know why.
-        // $(this.getFeatDiv(selection.feature)).mousedown();
+        $(this.getFeatDiv(selection.feature)).mousedown();
 
-        // var feature = EditTrack.getTopLevelAnnotation(selection.feature);
-        // var featureDiv = this.getFeatDiv(feature);
-        // var seqTrack = this.browser.getSequenceTrack();
-        // if (featureDiv)  {
-        //     var strand = feature.get('strand');
+        var feature = EditTrack.getTopLevelAnnotation(selection.feature);
+        var featureDiv = this.getFeatDiv(feature);
+        var seqTrack = this.getSequenceTrack();
+        if (featureDiv)  {
+            var strand = feature.get('strand');
 
-        //     var featureTop = $(featureDiv).position().top;
-        //     var scale = this.gview.bpToPx(1);
-        //     var charSize = seqTrack.getCharacterMeasurements();
-        //     if (scale >= charSize.w && this.useResiduesOverlay)  {
-        //         // Highlight reading frame.
-        //         var readingFrame = this.getReadingFrame(feature);
-        //         seqTrack.highlightRF(readingFrame);
+            var featureTop = $(featureDiv).position().top;
+            var scale = this.gview.bpToPx(1);
+            var charSize = seqTrack.getCharacterMeasurements();
+            if (scale >= charSize.w && this.useResiduesOverlay)  {
+                // Highlight reading frame.
+                var readingFrame = this.getReadingFrame(feature);
+                seqTrack.highlightRF(readingFrame);
 
-        //         for (var bindex = this.firstAttached; bindex <= this.lastAttached; bindex++)  {
-        //             this.browser.getStore('refseqs', _.bind(function(refSeqStore) {
-        //                 if (refSeqStore) {
-        //                     var block = this.blocks[bindex];
-        //                     refSeqStore.getReferenceSequence(
-        //                         {ref: this.refSeq.name, start: block.startBase, end: block.endBase},
-        //                         function (seq) {
-        //                             var top = featureTop - 2; // -2 hardwired adjustment to center
-        //                             var addBP = true;
-        //                             $('div.sequence', block.domNode).each(function () {
-        //                                 if ($(this).position().top === top) {
-        //                                     return (addBP = false);
-        //                                 }
-        //                             });
+                for (var bindex = this.firstAttached; bindex <= this.lastAttached; bindex++)  {
+                    this.browser.getStore('refseqs', _.bind(function(refSeqStore) {
+                        if (refSeqStore) {
+                            var block = this.blocks[bindex];
+                            refSeqStore.getReferenceSequence(
+                                {ref: this.refSeq.name, start: block.startBase, end: block.endBase},
+                                function (seq) {
+                                    var top = featureTop - 2; // -2 hardwired adjustment to center
+                                    var addBP = true;
+                                    $('div.sequence', block.domNode).each(function () {
+                                        if ($(this).position().top === top) {
+                                            return (addBP = false);
+                                        }
+                                    });
 
-        //                             if (addBP) {
-        //                                 // make a div to contain the sequences
-        //                                 var seqNode = document.createElement("div");
-        //                                 seqNode.className = "sequence";
-        //                                 seqNode.style.width = "100%";
-        //                                 seqNode.style.top = top + "px";
+                                    if (addBP) {
+                                        // make a div to contain the sequences
+                                        var seqNode = document.createElement("div");
+                                        seqNode.className = "sequence";
+                                        seqNode.style.width = "100%";
+                                        seqNode.style.top = top + "px";
 
-        //                                 if (strand == '-' || strand == -1)  {
-        //                                     seq = Util.complement(seq);
-        //                                 }
+                                        if (strand == '-' || strand == -1)  {
+                                            seq = Util.complement(seq);
+                                        }
 
-        //                                 seqNode.appendChild(seqTrack._ntDiv(seq));
-        //                                 block.domNode.appendChild(seqNode);
-        //                             }
-        //                         });
-        //                 }
-        //             }, this));
-        //         }
-        //     }
-        // }
+                                        seqNode.appendChild(seqTrack._ntDiv(seq));
+                                        block.domNode.appendChild(seqNode);
+                                    }
+                                });
+                        }
+                    }, this));
+                }
+            }
+        }
 
-        // this.updateMenu();
+        this.updateMenu();
     },
 
     selectionRemoved: function (selection)  {
-        // var seqTrack = this.browser.getSequenceTrack();
-        // seqTrack.unhighlightRF();
+        var seqTrack = this.getSequenceTrack();
+        seqTrack.unhighlightRF();
 
         this.inherited(arguments);
 

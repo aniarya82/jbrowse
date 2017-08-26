@@ -8,9 +8,10 @@ define([
     'jqueryui/draggable',
     'JBrowse/Util',
     'JBrowse/Model/SimpleFeature',
-    'AnnotationEditor/SequenceOntologyUtils'
+    'AnnotationEditor/SequenceOntologyUtils',
+    'tripleclick'
 ],
-function (declare, array, HTMLFeatureTrack, FeatureSelectionManager, $, _, draggable, Util, SimpleFeature, SeqOnto) {
+function (declare, array, HTMLFeatureTrack, FeatureSelectionManager, $, _, draggable, Util, SimpleFeature, SeqOnto, tripleclick) {
 
 var debugFrame = false;
 var draggableTrack = declare(HTMLFeatureTrack,
@@ -92,6 +93,12 @@ var draggableTrack = declare(HTMLFeatureTrack,
                           track.last_whitespace_mousedown_loc = [ event.pageX, event.pageY ];
                       }
                   } );
+        $div.bind('tripleclick', function(event, pageX) {
+          var target = event.target;
+          var thisB = track.gview;
+          var pos = Math.floor(thisB.absXtoBp(pageX));
+          thisB.zoomToBaseLevel(event, pos);
+        });
         $div.bind('mouseup', function (event) {
                       var target = event.target;
                       if (! (target.feature || target.subfeature))  {  // event not on feature, so must be on whitespace
@@ -129,7 +136,8 @@ var draggableTrack = declare(HTMLFeatureTrack,
 
                   // Kludge to restore selection after double click or triple
                   // click.
-                  $div.bind('dblclick tripleclick', function (event) {
+                  $div.bind('dblclick', function (event) {
+                      // event.stopPropagation();
                       var target = event.target;
                       // doubleclick on feature won't bubble up till here.
                       // Still checking that the user double clicked on
@@ -147,6 +155,7 @@ var draggableTrack = declare(HTMLFeatureTrack,
                               track.prev_selection = null;
                           }, 250);
                       }
+                      event.stopPropagation();
                   });
 
 

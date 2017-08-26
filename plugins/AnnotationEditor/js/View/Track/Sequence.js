@@ -79,7 +79,6 @@ return declare([BlockBased, ExportMixin],
      * Highlight the given reading frame.
      */
     highlightRF: function (readingFrame) {
-        console.log("highlightRF invoked");
         // Construct jQuery selector from the given reading frame.
         var selector = '.aa';
         if (readingFrame > 0) {

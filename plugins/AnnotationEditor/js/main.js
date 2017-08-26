@@ -15,7 +15,11 @@ require({
         {
             location: '../plugins/AnnotationEditor/jslib/genevalidator',
             name: 'genevalidator', main: 'gvapi'
-        }
+        },
+        {
+            location: '../plugins/AnnotationEditor/jslib/tripleclick',
+            name: 'tripleclick', main: 'jquery.tripleclick'
+        },
     ]
 },
 [],
