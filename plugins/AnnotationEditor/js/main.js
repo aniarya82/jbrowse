@@ -20,6 +20,10 @@ require({
             location: '../plugins/AnnotationEditor/jslib/tripleclick',
             name: 'tripleclick', main: 'jquery.tripleclick'
         },
+        {
+            location: '../plugins/AnnotationEditor/jslib/bootstrap',
+            name: 'bootstrap', main: 'bootstrap'
+        }
     ]
 },
 [],
@@ -30,6 +34,7 @@ function() {
     define([
         'dojo/_base/declare',
         'dojo/_base/array',
+        'dojo/dom-construct',
         'jquery/jquery',
         'underscore/underscore',
         'AnnotationEditor/FeatureEdgeMatchManager',
@@ -41,6 +46,7 @@ function() {
         function(
             declare,
             array,
+            domConstruct,
             $,
             _,
             FeatureEdgeMatchManager,
@@ -53,9 +59,27 @@ function() {
 return declare(JBrowsePlugin,
 {
     constructor: function( args ) {
+        console.log("plugin AnnotationEditor");
 
         // Get a handle to the main JBrowse instance.
         var browser = this.browser;
+        console.dir(browser);
+        var modalDiv = "<div class='modal fade' id='sequence' tabindex='-1'><div class='modal-dialog modal-lg'><div class='modal-content'><div class='modal-header'><h4 class='modal-title'>Reference Sequence ...</h4></div><div class='modal-body'><pre class='pre-scrollable'></pre></div>";
+        modalDiv = modalDiv + "<div class='modal-footer'>";
+        modalDiv = modalDiv + "<div class='btn btn-default pull-left' data-toggle='buttons'>";
+        modalDiv = modalDiv + "<label class='btn btn-default' data-sequence-type='protein' ng-click='browser.getEditTrack().showSequenceDialog()'><input type='radio'>Protien</label>";
+        modalDiv = modalDiv + "<label class='btn btn-default' data-sequence-type='CDS' ng-click='browser.getEditTrack().showSequenceDialog()'><input type='radio'>CDS</label>";
+        modalDiv = modalDiv + "<label class='btn btn-default' data-sequence-type='cDNA' ng-click='browser.getEditTrack().showSequenceDialog()'><input type='radio'>cDNA</label>";
+        modalDiv = modalDiv + "<label class='btn btn-default active' data-sequence-type='genomic' ng-click='browser.getEditTrack().showSequenceDialog()'><input type='radio'>Genomic</label>";
+        modalDiv = modalDiv + "</div>";
+        modalDiv = modalDiv + "<div id='bp' class='input-group col-sm-3 pull-left' style='display:none;'><span class='input-group-addon'>±</span>";
+        modalDiv = modalDiv + "<input type='number' class='form-control'>"
+        modalDiv = modalDiv + "</div>";
+        modalDiv = modalDiv + "<button class='btn btn-default pull-right' id='download'><i class='fa fa-download'></i>Download</button>"
+        modalDiv = modalDiv + "</div>";
+        modalDiv = modalDiv + "</div></div></div>"
+        var modal = domConstruct.toDom(modalDiv);
+        domConstruct.place(modal, 'GenomeBrowser', "before");
 
         // Convert HTMLFeature tracks to DraggableHTMLFeatures. Features in
         // DraggableHTMLFeatures tracks are selectable and draggable.
