@@ -76,66 +76,77 @@ var EditTrack = declare(DraggableFeatureTrack,
         thisConfig.menuTemplate = [
                             {
                                 label: 'Get sequence',
+                                iconClass: 'dijitIconApplication',
                                 action: function() {
                                     thisB.showSequenceDialog();
                                 }
                             },
                             {
                                 label: 'Send to GeneValidator',
+                                iconClass: 'dijitIconSearch',
                                 action: function() {
                                     thisB.sendToGeneValidator();
                                 }
                             },
                             {
                                 label: 'Delete',
+                                iconClass: 'dijitIconDelete',
                                 action: function() {
                                     thisB.deleteSelectedFeatures();
                                 }
                             },
                             {
                                 label: 'Merge',
+                                iconClass: 'dijitIconClear',
                                 action: function() {
                                     thisB.mergeSelectedFeatures();
                                 }
                             },
                             {
                                 label: 'Make Intron',
+                                iconClass: 'dijitIconNewTask',
                                 action: function() {
                                     thisB.makeIntronInSelectedExon();
                                 }
                             },
                             {
                                 label: 'Split Transcript',
+                                iconClass: 'dijitIconCut',
                                 action: function() {
                                     thisB.splitSelectedTranscript();
                                 }
                             },
                             {
                                 label: 'Duplicate',
+                                iconClass: 'dijitIconCopy',
                                 action: function() {
                                     thisB.duplicateSelectedFeatures();
                                 }
                             },
                             {
                                 label: 'Flip Strand',
+                                iconClass: 'dijitIconUndo',
                                 action: function() {
                                     thisB.flipStrandForSelectedFeatures();
                                 }
                             },
                             {
                                 label: 'Use Longest ORF',
+                                iconClass: 'dijitIconTask',
                                 action: function() {
                                     thisB.setLongestORFForImpliedTranscript();
                                 }
                             },
                             {
                                 label: 'Set Translation Start',
+                                iconClass: 'dijitIconEdit',
                                 action: function() {
                                     thisB.setTranslationStartForImpliedTranscript();
                                 }
                             },
                             {
                                 label: 'Set Translation Stop',
+                                iconClass: 'dijitIconEdit',
                                 action: function() {
                                     thisB.setTranslationStopForImpliedTranscript();
                                 }
