@@ -35,6 +35,7 @@ function() {
         'dojo/_base/declare',
         'dojo/_base/array',
         'dojo/dom-construct',
+        'dijit/form/button',
         'jquery/jquery',
         'underscore/underscore',
         'AnnotationEditor/FeatureEdgeMatchManager',
@@ -47,6 +48,7 @@ function() {
             declare,
             array,
             domConstruct,
+            dijitButton,
             $,
             _,
             FeatureEdgeMatchManager,
@@ -63,6 +65,7 @@ return declare(JBrowsePlugin,
 
         // Get a handle to the main JBrowse instance.
         var browser = this.browser;
+        var thisB = this;
         console.dir(browser);
         var modalDiv = "<div class='modal fade' id='sequence' tabindex='-1'><div class='modal-dialog modal-lg'><div class='modal-content'><div class='modal-header'><h4 class='modal-title'>Reference Sequence ...</h4></div><div class='modal-body'><pre class='pre-scrollable'></pre></div>";
         modalDiv = modalDiv + "<div class='modal-footer'>";
@@ -164,6 +167,25 @@ return declare(JBrowsePlugin,
                     features : []
             };
             browser.addStoreConfig('scratchpad', stores_scratchpad);
+
+            var navBox = dojo.byId('navbox');
+            browser.undoButton = new dijitButton(
+            {
+                title: "Undo",
+                label: "Undo",
+                id: "undo-btn",
+                onClick: dojo.hitch( thisB, function(event) {
+                    thisB.store.undo();
+                    dojo.stopEvent(event);
+                })
+            }, dojo.create('button',{},navBox));
+            var moveRight = dojo.byId('moveRight');
+            var handle = dojo.connect( moveRight, "click", this,
+                  function(event) {
+                      dojo.stopEvent(event);
+                      this.view.slide(0.9);
+                  });
+            dojo.disconnect(handle);
         })
     }
 });
