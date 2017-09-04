@@ -10,7 +10,7 @@ define([
             'AnnotationEditor/Model/SimpleFeature',
             'JBrowse/Util',
             'JBrowse/View/GranularRectLayout',
-            'JBrowse/CodonTable',
+            'AnnotationEditor/CodonTable',
             'FileSaver/FileSaver',
             'AnnotationEditor/Store/Stack',
             'genevalidator/gvapi'
@@ -959,7 +959,6 @@ var EditTrack = declare(DraggableFeatureTrack,
             orfStop  = this.CDNAToTranscript(transcript, orfStop);
 
             var newTranscript = this.setCDS(transcript, orfStart, orfStop);
-            console.log("newTranscript: "+JSON.stringify(newTranscript));
             return newTranscript;
         }
     },
