@@ -158,6 +158,108 @@ return declare(JBrowsePlugin,
             browser.addTracks(tracks);
         });
 
+        var smartScrollLeft = function (event) {
+            var selected = browser.featSelectionManager.getSelection();
+            if (selected.length == 0) {
+                selected = browser.annotSelectionManager.getSelection();
+            }
+
+            if (selected.length == 0) {
+                var offset = -40;
+                if (event.shiftKey) {
+                  offset *= 5;
+                }
+                browser.view.keySlideX(offset);
+            } else {
+                scrollToPreviousEdge(selected);
+            }
+        }
+
+        var smartScrollRight = function (event) {
+            var selected = browser.featSelectionManager.getSelection();
+            if (selected.length == 0) {
+                selected = browser.annotSelectionManager.getSelection();
+            }
+
+            if (selected.length == 0) {
+                var offset = 40;
+                if (event.shiftKey) {
+                  offset *= 5;
+                }
+                browser.view.keySlideX(offset);
+            } else {
+                scrollToNextEdge(selected);
+            }
+        }
+
+        var scrollToNextEdge = function (selected) {
+            var vregion = browser.view.visibleRegion();
+            var coordinate = (vregion.start - vregion.end)/2;
+            if (selected && (selected.length > 0)) {
+                var selfeat = selected[0].feature;
+                while (selfeat.parent()) {
+                    selfeat = selfeat.parent();
+                }
+                var coordDelta = Number.MAX_VALUE;
+                var pmin = selfeat.get("start");
+                var pmax = selfeat.get('end');
+                if ((coordinate - pmax)) {
+                    browser.view.centerAtBase(pmin, false);
+                } else {
+                    var childfeats = selfeat.children();
+                    for (var i = 0; i < childfeats.length; i++) {
+                        var cfeat = childfeats[i];
+                        var cmin = cfeat.get('start');
+                        var cmax = cfeat.get('end');
+                        if ((cmin - coordinate) > 10) {
+                            coordDelta = Math.min(coordDelta, cmin - coordinate);
+                        }
+                        if ((cmax - coordinate) > 10) {
+                            coordDelta = Math.min(coordDelta, cmax - coordinate);
+                        }
+                    }
+                    if (coordDelta != Number.MAX_VALUE) {
+                        var newCenter = coordinate + coordDelta;
+                        browser.view.centerAtBase(newCenter, false);
+                    }
+                }
+            }
+        }
+
+        var scrollToPreviousEdge = function (selected) {
+            var vregion = browser.view.visibleRegion();
+            var coordinate = (vregion.start - vregion.end)/2;
+            if (selected && (selected.length > 0)) {
+                var selfeat = selected[0].feature;
+                while (selfeat.parent()) {
+                    selfeat = selfeat.parent();
+                }
+                var coordDelta = Number.MAX_VALUE;
+                var pmin = selfeat.get("start");
+                var pmax = selfeat.get('end');
+                if ((coordinate - pmax)) {
+                    browser.view.centerAtBase(pmax, false);
+                } else {
+                    var childfeats = selfeat.children();
+                    for (var i = 0; i < childfeats.length; i++) {
+                        var cfeat = childfeats[i];
+                        var cmin = cfeat.get('start');
+                        var cmax = cfeat.get('end');
+                        if ((coordinate - cmin) > 10) {
+                            coordDelta = Math.min(coordDelta, coordinate - cmin);
+                        }
+                        if ((coordinate - cmax) > 10) {
+                            coordDelta = Math.min(coordDelta, coordinate - cmax);
+                        }
+                    }
+                    if (coordDelta != Number.MAX_VALUE) {
+                        var newCenter = coordinate - coordDelta;
+                        browser.view.centerAtBase(newCenter, false);
+                    }
+                }
+            }
+        }
+
         browser.afterMilestone('initView', function() {
             var trackConfs = browser.trackConfigsByName["DNA"];
             trackConfs.type = "AnnotationEditor/View/Track/Sequence";
@@ -169,6 +271,29 @@ return declare(JBrowsePlugin,
             browser.addStoreConfig('scratchpad', stores_scratchpad);
 
             var navBox = dojo.byId('navbox');
+            var moveLeft = dojo.byId('moveLeft');
+            var moveRight = dojo.byId('moveRight');
+            navbox.removeChild(moveLeft);
+            var modLeft = document.createElement("img");
+            modLeft.src = 'img/Empty.png';
+            modLeft.id = "moveLeft";
+            modLeft.className = "icon nav";
+            navbox.insertBefore(modLeft, moveRight);
+            dojo.connect(modLeft, 'onclick', this, function(event) {
+              dojo.stopEvent(event);
+              smartScrollLeft(event);
+            });
+            navbox.removeChild(moveRight);
+            var bigZoomOut = dojo.byId('bigZoomOut');
+            var modRight = document.createElement("img");
+            modRight.src = 'img/Empty.png';
+            modRight.id = "moveRight";
+            modRight.className = "icon nav";
+            navbox.insertBefore(modRight, navbox.childNodes[3]);
+            dojo.connect(modRight, 'onclick', this, function(event) {
+              dojo.stopEvent(event);
+              smartScrollRight(event);
+            })
             browser.undoButton = new dijitButton(
             {
                 title: "Undo",
