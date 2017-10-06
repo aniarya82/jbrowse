@@ -155,6 +155,7 @@ return declare(JBrowsePlugin,
             label: 'AnnotationEditor Features'
         });
         browser.afterMilestone('loadConfig', function () {
+            browser.config.show_tracklist = false;
             browser.addTracks(tracks);
         });
 
